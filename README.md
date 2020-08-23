@@ -80,3 +80,40 @@ cmake ../src
 make -j8
 ```
 
+# 制作数据集
+
+### 1. 将 png 数据集转成 tum 数据集格式
+```bash
+cd png_2_klg/python_tools
+python3 png_to_tum.py
+```
+运行之后，会生成 tum/rgb 和 tum/depth 文件夹，以及 tum/rgb.txt 和 tum/depth.txt 文件
+
+### 2. 将 depth 和 rgb 关联
+
+注意 depth.txt 和 rgb.txt 的先后顺序
+```bash
+cd png_2_klg/python_tools
+python associate.py depth.txt rgb.txt > associations.txt
+```
+
+### 3. 编译 png_to_klg，生成 klg 数据集
+
+Fork form https://github.com/HTLife/png_to_klg
+
+- 编译
+```bash
+cd png_2_klg
+mkdir build && cd build
+cmake ..
+make -j8
+```
+
+- 运行
+```bash
+./pngtoklg -w path_to_datasets -o path_to_save_klg/xxx.klg -s 5000 -t
+```
+
+# 参考
+https://github.com/mp3guy/ElasticFusion/pull/161/files
+https://github.com/HTLife/png_to_klg
